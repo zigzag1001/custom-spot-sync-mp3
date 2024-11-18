@@ -31,23 +31,30 @@ def update_refresh_token(refresh_token):
         f.write(new_text)
         f.truncate()
 
-def get_first_spot_access_token():
+def get_first_spot_access_token(force_new=False):
 
 
-    request_body = {
-        "client_id": config["SPOTIFY_CLIENT_ID"],
-        "response_type": "code",
-        "redirect_uri": config["SPOTIFY_REDIRECT_URI"],
-        "scope": "playlist-read-private"
-    }
+    if not config["SPOTIFY_AUTHORIZATION_URL"].startswith("http://127.0.0.1:9900/?code=") or force_new:
+        request_body = {
+            "client_id": config["SPOTIFY_CLIENT_ID"],
+            "response_type": "code",
+            "redirect_uri": config["SPOTIFY_REDIRECT_URI"],
+            "scope": "playlist-read-private"
+        }
 
-    print("Visit the following URL to get the code:")
+        print("\n\nVisit the following URL to get the code:")
 
-    print(URL_AUTH + "?" + "&".join([f"{k}={v}" for k, v in request_body.items()]))
+        print(URL_AUTH + "?" + "&".join([f"{k}={v}" for k, v in request_body.items()]))
 
-    response = input("Enter the URL you were redirected to: ")
+        print("\n\nAfter you are redirected, copy the URL into the .env file\n\n")
 
-    response = response.split("?")[1].split("&")[0].split("=")
+        raise Exception("Please update the SPOTIFY_AUTHORIZATION_URL field in the .env file to the URL you were redirected to")
+
+    else:
+
+        response = config["SPOTIFY_AUTHORIZATION_URL"]
+
+        response = response.split("?")[1].split("&")[0].split("=")
 
     if response[0] == "code":
         code = response[1]
@@ -73,6 +80,12 @@ def get_first_spot_access_token():
 
     if "refresh_token" in response_dict:
         update_refresh_token(response_dict["refresh_token"])
+    else:
+        print("Error getting refresh token")
+        print(response_dict)
+        if response_dict["error"] == "invalid_grant":
+            print("The code has expired. Please get a new code")
+            get_first_spot_access_token(force_new=True)
 
     return response_dict
 

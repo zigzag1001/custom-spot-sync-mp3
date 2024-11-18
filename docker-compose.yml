@@ -7,5 +7,7 @@ services:
     environment:
       - DOTENV=true  # Ensures the .env is recognized
     volumes:
+      - ./spotdl.config.json:/root/.spotdl/config.json
       - ${OUTPUT_PATH}:/app/music
+      - ./.env:/app/.env
     command: python main.py  # Replace with your script's entry point
