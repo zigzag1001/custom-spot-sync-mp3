@@ -6,15 +6,11 @@ import hq_320_m3u8
 import get_dupes
 import dotenv
 
+OUTPUT_PATH = "./music/"
+
 with open(".env", "r") as f:
     if "SPOTIFY_REFRESH_TOKEN" not in f.read():
         get_spot_access_token.get_first_spot_access_token()
-    f.seek(0)
-    for line in f.readlines():
-        if line.startswith("OUTPUT_PATH"):
-            if not line.strip().endswith("/"):
-                raise ValueError("OUTPUT_PATH must end with a /")
-            break
 
 
 config = dotenv.dotenv_values()

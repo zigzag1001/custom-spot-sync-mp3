@@ -3,6 +3,8 @@ import requests
 import json
 import base64
 
+OUTPUT_PATH = "./music/"
+
 URL_AUTH = "https://accounts.spotify.com/authorize"
 URL_TOKEN = "https://accounts.spotify.com/api/token"
 

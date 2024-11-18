@@ -4,15 +4,16 @@ import eyed3
 
 eyed3.log.setLevel("ERROR")
 
+OUTPUT_PATH = "./music/"
+
 # retag song to only have one artist, keep all other metadata
 
 config = dotenv.dotenv_values()
 
 def retag_spotdl_dls(new_files):
-    output_path = config.get('OUTPUT_PATH', './mp3/')
     retagged = []
     for file in new_files:
-        audiofile = eyed3.load(os.path.join(output_path, file))
+        audiofile = eyed3.load(os.path.join(OUTPUT_PATH, file))
         artists = audiofile.tag.artist
         if '/' in artists:
             audiofile.tag.artist = artists.split('/')[0]

@@ -6,20 +6,21 @@ eyed3.log.setLevel("ERROR")
 
 config = dotenv.dotenv_values()
 
+OUTPUT_PATH = "./music/"
+
 def get_dupes():
-    output_path = config["OUTPUT_PATH"]
     dupes = []
 
     allowed_extensions = [".mp3"]
 
-    files = os.listdir(output_path)
+    files = os.listdir(OUTPUT_PATH)
 
     files = [f for f in files if any(f.endswith(ext) for ext in allowed_extensions)]
 
     artists = {}
 
     for f in files:
-        audiofile = eyed3.load(output_path + f)
+        audiofile = eyed3.load(OUTPUT_PATH + f)
         if not audiofile:
             continue
         if audiofile.tag is not None:
@@ -42,7 +43,7 @@ def get_dupes():
         for title in artists[artist]:
             files = artists[artist][title]
             if len(files) > 1:
-                files.sort(key=lambda x: os.path.getmtime(output_path + x), reverse=True)
+                files.sort(key=lambda x: os.path.getmtime(OUTPUT_PATH + x), reverse=True)
                 for f in files[1:]:
                     dupes.append(f)
 

@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  spotify-mp3-sync:
+    build:
+      context: .
+    environment:
+      - DOTENV=true  # Ensures the .env is recognized
+    volumes:
+      - ${OUTPUT_PATH}:/app/music
+    command: python main.py  # Replace with your script's entry point

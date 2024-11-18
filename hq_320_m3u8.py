@@ -8,6 +8,8 @@ config = dotenv.dotenv_values()
 
 possible_hq_files = [".mp3", ".flac", ".wav"]
 
+OUTPUT_PATH = "./music/"
+
 IGNORE_ARTISTS = ["Turbo"]
 
 # if file is mp3 and bitrate is 320kbps add to 320.m3u8
@@ -38,7 +40,6 @@ def update_m3u8(file, hqs):
             f.write(hq + "\n")
 
 def main():
-    OUTPUT_PATH = config["OUTPUT_PATH"]
     hqs = walk_dir(OUTPUT_PATH)
     m3u8_path = os.path.join(OUTPUT_PATH, "320.m3u8")
     update_m3u8(m3u8_path, hqs)
