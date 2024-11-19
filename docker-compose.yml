@@ -6,9 +6,12 @@ services:
       context: .
     environment:
       - DOTENV=true  # Ensures the .env is recognized
+    env_files:
+      - path: ./.env
+      - path: ../music.env
     volumes:
       - ./spotdl.config.json:/root/.spotdl/config.json
-      - ${OUTPUT_PATH}:/app/music
+      - music:/app/music
       - ./.env:/app/.env
     command: python main.py  # Replace with your script's entry point
 volume:
@@ -16,5 +19,5 @@ volume:
     driver: local
     driver_opts:
       type: none
-      device: ${OUTPUT_PATH}
+      device: ${MUSIC_PATH}
       o: bind
