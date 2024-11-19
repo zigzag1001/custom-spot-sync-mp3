@@ -11,3 +11,10 @@ services:
       - ${OUTPUT_PATH}:/app/music
       - ./.env:/app/.env
     command: python main.py  # Replace with your script's entry point
+volume:
+  music:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${OUTPUT_PATH}
+      o: bind
