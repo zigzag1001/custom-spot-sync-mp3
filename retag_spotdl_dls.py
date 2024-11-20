@@ -13,6 +13,8 @@ config = dotenv.dotenv_values()
 def retag_spotdl_dls(new_files):
     retagged = []
     for file in new_files:
+        if not file.endswith(".mp3"):
+            continue
         audiofile = eyed3.load(os.path.join(OUTPUT_PATH, file))
         artists = audiofile.tag.artist
         if '/' in artists:

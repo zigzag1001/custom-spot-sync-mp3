@@ -6,18 +6,10 @@ services:
       context: .
     environment:
       - DOTENV=true  # Ensures the .env is recognized
-    env_files:
+    env_file:
       - path: ./.env
-      - path: ../music.env
     volumes:
       - ./spotdl.config.json:/root/.spotdl/config.json
-      - music:/app/music
+      - /home/mele/storage/music:/app/music
       - ./.env:/app/.env
     command: python main.py  # Replace with your script's entry point
-volume:
-  music:
-    driver: local
-    driver_opts:
-      type: none
-      device: ${MUSIC_PATH}
-      o: bind

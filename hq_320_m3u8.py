@@ -28,10 +28,11 @@ def walk_dir(dir):
                     continue
                 file_path = os.path.join(root, file)
                 bitrate = get_bitrate(file_path)
+                trimmed_path = file_path.replace(OUTPUT_PATH, "")
                 if bitrate and "320" in bitrate:
-                    hqs.append(file_path)
+                    hqs.append(trimmed_path)
                 elif file.endswith((".flac", ".wav")):
-                    hqs.append(file_path)
+                    hqs.append(trimmed_path)
     return hqs
 
 def update_m3u8(file, hqs):
