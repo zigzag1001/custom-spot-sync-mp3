@@ -16,12 +16,9 @@ def download_spot_playlists(playlists):
 
     playlist_urls = [playlists[playlist]['external_urls']['spotify'] for playlist in playlists]
 
-    # print(", ".join(playlist_urls))
-
     for playlist in playlist_urls:
 
-        command = ['spotdl', playlist, '--m3u']
-
+        command = ['spotdl', playlist, '--m3u', '--no-cache']
         subprocess.run(command, cwd=OUTPUT_PATH)
 
 
