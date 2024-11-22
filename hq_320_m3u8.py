@@ -42,6 +42,7 @@ def update_m3u8(file, hqs):
 
 def main():
     hqs = walk_dir(OUTPUT_PATH)
+    hqs = sorted(hqs)
     m3u8_path = os.path.join(OUTPUT_PATH, "320.m3u8")
     update_m3u8(m3u8_path, hqs)
     print(f"HQs: {len(hqs)}")

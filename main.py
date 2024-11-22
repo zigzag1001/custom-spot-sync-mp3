@@ -2,7 +2,7 @@ import get_spot_access_token
 import get_user_playlists
 import download_spot_playlists
 import retag_spotdl_dls
-import hq_320_m3u8
+# import hq_320_m3u8
 import get_dupes
 import dotenv
 
@@ -27,7 +27,8 @@ def main():
 
     retag_spotdl_dls.retag_spotdl_dls(new_files)
 
-    hq_320_m3u8.main()
+    # Not needed since i found out about Navidrome Smart Playlists
+    # hq_320_m3u8.main()
 
     get_dupes.get_dupes()
 
