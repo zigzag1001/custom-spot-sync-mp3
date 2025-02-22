@@ -25,6 +25,15 @@ def main():
 
     new_files = download_spot_playlists.download_spot_playlists(playlists)
 
+    if config.get("NTFY_url") != None and len(new_files) > 0:
+        ntfy_url = config["NTFY_url"]
+        headers = {
+            "t": "Spotify Synced"
+        }
+        data = f"{len(new_files)} new songs downloaded!"
+        
+        response = requests.post(ntfy_url, headers=headers, data=data)
+
     retag_spotdl_dls.retag_spotdl_dls(new_files)
 
     # Not needed since i found out about Navidrome Smart Playlists
