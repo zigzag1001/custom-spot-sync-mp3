@@ -10,6 +10,7 @@ services:
     env_file:
       - path: ./.env
     volumes:
+      - ./py:/app
       - ./spotdl.config.json:/config/.spotdl/config.json
       - /home/mele/storage/music:/app/music
       - ./.env:/app/.env

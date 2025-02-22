@@ -2,6 +2,7 @@ import get_spot_access_token
 import get_user_playlists
 import download_spot_playlists
 import retag_spotdl_dls
+import del_m3u
 # import hq_320_m3u8
 import get_dupes
 import dotenv
@@ -41,18 +42,22 @@ def main():
 
     get_dupes.get_dupes()
 
+    del_m3u.delete_del_m3u()
+
+
 try:
     main()
-except:
+except Exception as e:
+    print(e)
     import requests
     config = dotenv.dotenv_values()
 
     ntfy_url = config["NTFY_url"]
 
     headers = {
-        "t": "Spotify Synced"
+        "t": "EXCEPTION in Spotyify Sync"
     }
-    data = "EXCEPTION IN PYTHON"
+    data = f"{e}"
 
     response = requests.post(ntfy_url, headers=headers, data=data)
 
