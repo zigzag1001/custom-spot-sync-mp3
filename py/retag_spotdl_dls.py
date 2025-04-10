@@ -21,6 +21,10 @@ def retag_spotdl_dls(new_files):
             audiofile.tag.artist = artists.split('/')[0]
             audiofile.tag.save()
             retagged.append(file)
+        elif '; ' in artists:
+            audiofile.tag.artist = artists.split('; ')[0]
+            audiofile.tag.save()
+            retagged.append(file)
 
     retagged_str = '\n'.join(retagged)
 

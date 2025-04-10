@@ -6,6 +6,7 @@ import del_m3u
 # import hq_320_m3u8
 import get_dupes
 import dotenv
+import requests
 
 OUTPUT_PATH = "./music/"
 def main():
@@ -49,7 +50,6 @@ try:
     main()
 except Exception as e:
     print(e)
-    import requests
     config = dotenv.dotenv_values()
 
     ntfy_url = config["NTFY_url"]
