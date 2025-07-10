@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  spotify-mp3-sync:
+    build:
+      context: .
+    user: 1000:1000
+    environment:
+      - DOTENV=true  # Ensures the .env is recognized
+    env_file:
+      - path: ./.env
+    volumes:
+      - ./py:/app
+      - ./spotdl.config.json:/config/.spotdl/config.json
+      - /home/mele/storage/music:/app/music
+      - ./.env:/app/.env
+    command: python subsonic_reqs.py

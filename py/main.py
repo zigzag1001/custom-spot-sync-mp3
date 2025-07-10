@@ -29,12 +29,19 @@ def main():
 
     if config.get("NTFY_url") != None and len(new_files) > 0:
         ntfy_url = config["NTFY_url"]
+        ntfy_user = config.get("NTFY_USER")
+        ntfy_password = config.get("NTFY_PASSWORD")
+
+        if ntfy_user and ntfy_password:
+            auth = (ntfy_user, ntfy_password)
+        else:
+            auth = None
         headers = {
             "t": "Spotify Synced"
         }
         data = f"{len(new_files)} new songs downloaded!"
         
-        response = requests.post(ntfy_url, headers=headers, data=data)
+        response = requests.post(ntfy_url, headers=headers, data=data, auth=auth)
 
     retag_spotdl_dls.retag_spotdl_dls(new_files)
 
@@ -54,11 +61,20 @@ except Exception as e:
 
     ntfy_url = config["NTFY_url"]
 
+    ntfy_user = config.get("NTFY_USER")
+    ntfy_password = config.get("NTFY_PASSWORD")
+
+    if ntfy_user and ntfy_password:
+        auth = (ntfy_user, ntfy_password)
+    else:
+        auth = None
+
     headers = {
         "t": "EXCEPTION in Spotyify Sync"
     }
+
     data = f"{e}"
 
-    response = requests.post(ntfy_url, headers=headers, data=data)
+    response = requests.post(ntfy_url, headers=headers, data=data, auth=auth)
 
     print(response.status_code)

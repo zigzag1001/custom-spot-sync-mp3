@@ -21,5 +21,5 @@ RUN mkdir -p /config/.spotdl/temp
 RUN chown -R 1000:1000 /config/.spotdl
 
 # Define the default command (can be overridden by Compose)
-CMD ["python", "main.py"]  # Replace main.py with your entry point script
+# CMD ["python", "main.py"]  # Replace main.py with your entry point script
 
