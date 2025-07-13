@@ -18,6 +18,8 @@ params = subsonic_auth.get_subsonic_auth_headers()
 
 def do_request(endpoint, params):
     response = requests.get(url + endpoint, params=params)
+    if response.status_code != 200:
+        print(f"Request Error: {response.status_code} - {response.text}")
     return response.json()
 
 def get_playlists():

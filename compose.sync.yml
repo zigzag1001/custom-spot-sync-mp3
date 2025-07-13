@@ -5,6 +5,8 @@ services:
     build:
       context: .
     user: 1000:1000
+    networks:
+      - caddy_network
     environment:
       - DOTENV=true  # Ensures the .env is recognized
     env_file:
@@ -15,3 +17,6 @@ services:
       - /home/mele/storage/music:/app/music
       - ./.env:/app/.env
     command: python main.py
+networks:
+  caddy_network:
+    external: true
