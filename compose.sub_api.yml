@@ -10,12 +10,12 @@ services:
     environment:
       - DOTENV=true  # Ensures the .env is recognized
     env_file:
-      - path: ./.env
+      - path: ./config/.env
     volumes:
       - ./py:/app
-      - ./spotdl.config.json:/config/.spotdl/config.json
+      - ./config/spotdl.config.json:/config/.spotdl/config.json
       - /home/mele/storage/music:/app/music
-      - ./.env:/app/.env
+      - ./config/.env:/app/.env
     command: python subsonic_reqs.py
 networks:
   caddy_network:

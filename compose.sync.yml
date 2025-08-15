@@ -7,15 +7,16 @@ services:
     user: 1000:1000
     networks:
       - caddy_network
+    env_file:
+      - path: ./config/.env
     environment:
       - DOTENV=true  # Ensures the .env is recognized
-    env_file:
-      - path: ./.env
     volumes:
       - ./py:/app
-      - ./spotdl.config.json:/config/.spotdl/config.json
+      - ./config/spotdl.config.json:/config/.spotdl/config.json
       - /home/mele/storage/music:/app/music
-      - ./.env:/app/.env
+      - ./config/.env:/app/.env
+      - ./config/spotify_playlists.json:/app/spotify_playlists.json
     command: python main.py
 networks:
   caddy_network:
