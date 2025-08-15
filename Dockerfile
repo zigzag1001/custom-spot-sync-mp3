@@ -11,10 +11,10 @@ COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Install spotdl
-RUN pip install spotdl
+RUN pip install spotdl==4.2.11 # this version works better for now
 
-# Install ffmpeg
-RUN apt-get update && apt-get install -y ffmpeg
+# Install ffmpeg, wget for rsgain
+RUN apt-get update && apt-get install -y ffmpeg rsgain
 
 ENV HOME="/config"
 RUN mkdir -p /config/.spotdl/temp

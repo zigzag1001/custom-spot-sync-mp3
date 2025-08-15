@@ -5,6 +5,9 @@ import retag_spotdl_dls
 import del_m3u
 # import hq_320_m3u8
 import get_dupes
+import do_rsgain
+import ntfy
+
 import dotenv
 import requests
 
@@ -27,23 +30,15 @@ def main():
 
     new_files = download_spot_playlists.download_spot_playlists(playlists)
 
-    if config.get("NTFY_url") != None and len(new_files) > 0:
-        ntfy_url = config["NTFY_url"]
-        ntfy_user = config.get("NTFY_USER")
-        ntfy_password = config.get("NTFY_PASSWORD")
+    if len(new_files) > 0:
+        title = "Spotify Synced"
+        message = f"{len(new_files)} new songs downloaded!"
 
-        if ntfy_user and ntfy_password:
-            auth = (ntfy_user, ntfy_password)
-        else:
-            auth = None
-        headers = {
-            "t": "Spotify Synced"
-        }
-        data = f"{len(new_files)} new songs downloaded!"
-        
-        response = requests.post(ntfy_url, headers=headers, data=data, auth=auth)
+        ntfy.send_ntfy_notification(title, message)
 
     retag_spotdl_dls.retag_spotdl_dls(new_files)
+
+    do_rsgain.do_rsgain()
 
     # Not needed since i found out about Navidrome Smart Playlists
     # hq_320_m3u8.main()
@@ -57,24 +52,9 @@ try:
     main()
 except Exception as e:
     print(e)
-    config = dotenv.dotenv_values()
 
-    ntfy_url = config["NTFY_url"]
+    title = "EXCEPTION in Spotify Sync"
+    message = f"{e}"
 
-    ntfy_user = config.get("NTFY_USER")
-    ntfy_password = config.get("NTFY_PASSWORD")
+    ntfy.send_ntfy_notification(title, message)
 
-    if ntfy_user and ntfy_password:
-        auth = (ntfy_user, ntfy_password)
-    else:
-        auth = None
-
-    headers = {
-        "t": "EXCEPTION in Spotyify Sync"
-    }
-
-    data = f"{e}"
-
-    response = requests.post(ntfy_url, headers=headers, data=data, auth=auth)
-
-    print(response.status_code)

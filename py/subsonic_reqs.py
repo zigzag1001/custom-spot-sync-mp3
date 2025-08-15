@@ -1,5 +1,6 @@
 import dotenv
 import subsonic_auth
+import ntfy
 import requests
 import json
 import os
@@ -8,7 +9,9 @@ import re
 config = dotenv.dotenv_values()
 
 url = config["NAVI_URL"]
-music_dir = config["MUSIC_DIR"]
+# music_dir = config["MUSIC_DIR"]
+# music_dir = "/app/music"
+music_dir = "/app/"
 print(f"Using music directory: {music_dir}")
 if not url.endswith('/'):
     url += '/'
@@ -69,6 +72,8 @@ def main():
         if playlist["name"] == "del":
 
             pl = get_playlist(playlist["id"])
+            delete_count = 0
+            fail_count = 0
 
             for song in pl.get("entry", []):
 
@@ -80,9 +85,19 @@ def main():
                     print(response)
                     os.remove(full_path)
                     print(f"Deleted: {full_path}")
+                    delete_count += 1
 
                 else:
-                    print(f"File not found: {full_path}")
+                    print(f"File not found: '{full_path}'")
+                    fail_count += 1
+                    # print(os.listdir(music_dir))
+
+            if delete_count > 0:
+                title = "Deleted Songs"
+                message = f"Deleted {delete_count} songs"
+                if fail_count > 0:
+                    message += f", failed to delete {fail_count} songs."
+                ntfy.send_ntfy_notification(title, message)
 
         elif playlist["name"] == "spoticheck":
 
