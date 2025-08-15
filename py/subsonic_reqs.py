@@ -74,6 +74,7 @@ def main():
             pl = get_playlist(playlist["id"])
             delete_count = 0
             fail_count = 0
+            del_string = ""
 
             for song in pl.get("entry", []):
 
@@ -86,6 +87,7 @@ def main():
                     os.remove(full_path)
                     print(f"Deleted: {full_path}")
                     delete_count += 1
+                    del_string += f" - {song_path.replace('/music/', '')}\n"
 
                 else:
                     print(f"File not found: '{full_path}'")
@@ -94,7 +96,8 @@ def main():
 
             if delete_count > 0:
                 title = "Deleted Songs"
-                message = f"Deleted {delete_count} songs"
+                message = f"Deleted {delete_count} songs\n"
+                message += del_string
                 if fail_count > 0:
                     message += f", failed to delete {fail_count} songs."
                 ntfy.send_ntfy_notification(title, message)

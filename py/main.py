@@ -32,7 +32,11 @@ def main():
 
     if len(new_files) > 0:
         title = "Spotify Synced"
-        message = f"{len(new_files)} new songs downloaded!"
+        message = f"{len(new_files)} new songs downloaded!\n"
+
+        if len(new_files) < 10:
+            for file in new_files:
+                message += f" - {file}\n"
 
         ntfy.send_ntfy_notification(title, message)
 
