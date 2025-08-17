@@ -14,7 +14,7 @@ services:
     volumes:
       - ./py:/app
       - ./config/spotdl.config.json:/config/.spotdl/config.json
-      - /home/mele/storage/music:/app/music
+      - /home/debian/storage/music/audio/:/app/music
       - ./config/.env:/app/.env
       - ./config/spotify_playlists.json:/app/spotify_playlists.json
     command: python main.py
