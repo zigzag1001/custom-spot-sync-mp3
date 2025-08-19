@@ -9,7 +9,6 @@ import do_rsgain
 import ntfy
 
 import dotenv
-import requests
 
 OUTPUT_PATH = "./music/"
 def main():
